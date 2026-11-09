@@ -66,15 +66,19 @@ function generateWords(number: number, words?: string[]): string {
     }
 
     if (number < 20) {
+        // Invariant: 0 <= number < 20, and number is an integer
+        // (parseInt result), so the index is always valid.
         remainder = 0;
-        word = LESS_THAN_TWENTY[number];
+        word = LESS_THAN_TWENTY[number]!;
 
     } else if (number < ONE_HUNDRED) {
+        // Invariant: 20 <= number < 100, so Math.floor(number / 10) is in 2..9.
         remainder = number % TEN;
-        word = TENTHS_LESS_THAN_HUNDRED[Math.floor(number / TEN)];
+        word = TENTHS_LESS_THAN_HUNDRED[Math.floor(number / TEN)]!;
         // In case of remainder, we need to handle it here to be able to add the “-”
         if (remainder) {
-            word += '-' + LESS_THAN_TWENTY[remainder];
+            // Invariant: remainder = number % 10, so it's in 0..9.
+            word += '-' + LESS_THAN_TWENTY[remainder]!;
             remainder = 0;
         }
 
